@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load user_tags %}
+{% block content %}
+<h2>Рассылки</h2>
+<a href="{% url 'mailings:mailings_add' %}">Добавить</a>
+<ul>
+    {% for obj in object_list %}
+    <li>{{ obj }}
+        {% if obj.owner == user %}
+        <a href="{% url 'mailings:mailings_edit' obj.pk %}">Изменить</a>
+        <a href="{% url 'mailings:mailings_delete' obj.pk %}">Удалить</a>
+        <a href="{% url 'mailings:mailings_send' obj.pk %}">Отправить</a>
+        {% endif %}
+        {% if user|has_group:'Managers' and obj.owner != user %}
+        <form action="{% url 'disable_mailing' obj.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Отключить</button>
+        </form>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
