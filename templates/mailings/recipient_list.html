@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load user_tags %}
+{% block content %}
+<h2>Получатели</h2>
+<a href="{% url 'mailings:recipients_add' %}">Добавить</a>
+<ul>
+{% for obj in object_list %}
+<li>{{ obj.full_name }} ({{ obj.email }})
+    {% if obj.owner == user' %}
+    <a href="{% url 'mailings:recipients_edit' obj.pk %}">Изменить</a>
+    <a href="{% url 'mailings:recipients_delete' obj.pk %}">Удалить</a>
+    {% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}
