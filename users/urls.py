@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     path("profile/", ProfileView.as_view(), name="profile"),
     path("profile/edit/", ProfileUpdateView.as_view(), name="profile_edit"),
-    path('users/', views.user_list, name='user_list'),
-    path('users/<int:pk>/toggle/', views.toggle_user_active, name='toggle_user_active'),
-    path('mailings/<int:pk>/disable/', views.disable_mailing, name='disable_mailing'),
+    path("users/", views.user_list, name="user_list"),
+    path("users/<int:pk>/toggle/", views.toggle_user_active, name="toggle_user_active"),
+    path("mailings/<int:pk>/disable/", views.disable_mailing, name="disable_mailing"),
 ]

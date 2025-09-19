@@ -12,32 +12,37 @@ from .forms import RegisterForm
 from .models import User
 from django.core.mail import send_mail
 
+
 def manager_required(view_func):
     decorated_view_func = user_passes_test(
-        lambda u: u.is_authenticated and u.groups.filter(name='Managers').exists(),
-        login_url='/'
+        lambda u: u.is_authenticated and u.groups.filter(name="Managers").exists(), login_url="/"
     )
     return decorated_view_func(view_func)
+
 
 @manager_required
 def user_list(request):
     users = User.objects.all()
-    return render(request, 'users/user_list.html', {'users': users})
+    return render(request, "users/user_list.html", {"users": users})
+
 
 @manager_required
 def toggle_user_active(request, pk):
     user = get_object_or_404(User, pk=pk)
     user.is_active = not user.is_active
     user.save()
-    return redirect('user_list')
+    return redirect("user_list")
+
 
 @manager_required
 def disable_mailing(request, pk):
     from mailings.models import Mailing
+
     mailing = get_object_or_404(Mailing, pk=pk)
     mailing.status = Mailing.STATUS_FINISHED
     mailing.save()
-    return redirect('mailings:mailings_list')
+    return redirect("mailings:mailings_list")
+
 
 def register_view(request):
     if request.method == "POST":

@@ -40,7 +40,7 @@ class OwnerFilteredMixin:
         return qs.none()
 
     def dispatch(self, request, *args, **kwargs):
-        if is_manager(request.user) and request.method not in ['GET', 'HEAD']:
+        if is_manager(request.user) and request.method not in ["GET", "HEAD"]:
             return HttpResponseForbidden("Managers can only view objects")
         return super().dispatch(request, *args, **kwargs)
 
@@ -95,6 +95,7 @@ class MessageUpdateView(OwnerFilteredMixin, UpdateView):
     form_class = MessageForm
     template_name = "mailings/message_form.html"
     success_url = reverse_lazy("mailings:messages_list")
+
 
 class MessageDeleteView(OwnerFilteredMixin, DeleteView):
     model = Message
